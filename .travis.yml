@@ -5,7 +5,7 @@ dist: trusty
 jobs:
   include:
     # ======== Parte del frontend ========
-    - language: node_jss
+    - language: node_js
       node_js:  '12'
 
       warnings_are_errors: false
@@ -13,10 +13,6 @@ jobs:
       cache:
         directories:
           - node_modules
-
-      branches:
-        only:
-          - master
 
       before_install:
         - cd front_end
@@ -30,8 +26,9 @@ jobs:
         api_key: $APIKEYHEROKU
         app: construction-planning-frontend
 
+
     # ======== Parte de Backend ========
-      - language: python
+    - language: python
       dist: xenial
       python:
         - 3.8
@@ -45,7 +42,7 @@ jobs:
         - pip install -r requirements.txt
 
       script:
-        - python manage.py runserver
+        - python manage.py test
 
       deploy:
         provider: heroku
