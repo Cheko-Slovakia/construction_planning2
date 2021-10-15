@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import make_password
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
@@ -77,13 +78,28 @@ def trabajadorAPI(request, id=0, ):
         trabajador_data = JSONParser().parse(request)
         print(trabajador_data)
         trabajador_serializer = TrabajadorSerializer(data=trabajador_data)
+
         if trabajador_serializer.is_valid():
-            obj, created = Trabajador.objects.filter(
+            new_trabajador = Trabajador.objects.create(
+                numero_cedula=trabajador_data['numero_cedula'],
+                nombre=trabajador_data['nombre'],
+                apellido=trabajador_data['apellido'],
+                direccion=trabajador_data['direccion'],
+                numero_celular=trabajador_data['numero_celular'],
+                contrasena='',
+                cargo=trabajador_data['cargo'],
+                username=trabajador_data['numero_cedula'],
+                password=make_password(trabajador_data['contrasena'])
+            )
+            new_trabajador.save()
+            return JsonResponse("Trabajador registrado satisfactoriamente", safe=False)
+
+            '''obj, created = Trabajador.objects.filter(
                 Q(numero_cedula=trabajador_serializer.data['numero_cedula'])).get_or_create(trabajador_serializer.data)
             if created:
                 return JsonResponse("Trabajador registrado satisfactoriamente", safe=False)
             else:
-                return JsonResponse("Este trabajador ya existe en el sistema", safe=False)
+                return JsonResponse("Este trabajador ya existe en el sistema", safe=False)'''
         return JsonResponse("Failed to add.", safe=False)
 
     elif request.method == 'PUT':
@@ -156,6 +172,7 @@ def clienteAPI(request, id=0, ):
         print(cliente_data)
         cliente_serializer = ClienteSerializer(data=cliente_data)
         if cliente_serializer.is_valid():
+            cliente_serializer
             cliente_serializer.save()
             return JsonResponse("Cliente registrado satisfactoriamente", safe=False)
         else:
