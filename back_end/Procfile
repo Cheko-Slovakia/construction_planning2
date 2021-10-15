@@ -1,0 +1,1 @@
+web: gunicorn cpm.wsgi --log-file -
