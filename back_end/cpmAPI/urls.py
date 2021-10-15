@@ -7,7 +7,7 @@ urlpatterns = [
     url(r'^tests/$', views.testApi),
     url(r'^tests/([0-9]+)$', views.testApi),
 
-    url(r'^SaveFile$', views.SaveFile),
+    url(r'^SaveFileeeee$', views.SaveFile),
 
     #Trabajadores
     url(r'^trabajadores/$', views.trabajadorAPI),
