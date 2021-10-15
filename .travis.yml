@@ -5,7 +5,7 @@ dist: trusty
 jobs:
   include:
     # ======== Parte del frontend ========
-    - language: node_js
+    - language: node_jss
       node_js:  '12'
 
       warnings_are_errors: false
